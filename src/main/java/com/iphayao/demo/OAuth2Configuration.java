@@ -36,16 +36,6 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
         clients.jdbc(dataSource);
     }
 
-    /*@Override
-    public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
-                .withClient("my_service")
-                .authorizedGrantTypes("authorization_code", "client_credentials")
-                .secret("{noop}clientSecret")
-                .authorizedGrantTypes("ROLE_TRUSTED_CLIENT")
-                .scopes("any");
-    }*/
-
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         endpoints.tokenStore(tokenStore())
@@ -56,7 +46,6 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
-        //converter.setSigningKey("P@ssw0rd");
         KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(new ClassPathResource("apikey.jks"), "P@ssw0rd".toCharArray());
         converter.setKeyPair(keyStoreKeyFactory.getKeyPair("myapi"));
 
@@ -65,7 +54,6 @@ public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
 
     @Bean
     public TokenStore tokenStore() {
-        //return new JwtTokenStore(accessTokenConverter());
         return new JdbcTokenStore(dataSource);
     }
 }
