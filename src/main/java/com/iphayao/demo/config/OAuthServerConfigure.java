@@ -1,4 +1,4 @@
-package com.iphayao.demo;
+package com.iphayao.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,18 +17,20 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 import javax.sql.DataSource;
 
 @Configuration
-public class OAuth2Configuration extends AuthorizationServerConfigurerAdapter {
+public class OAuthServerConfigure extends AuthorizationServerConfigurerAdapter {
     private AuthenticationManager authenticationManager;
     private DataSource dataSource;
 
-    public OAuth2Configuration(AuthenticationConfiguration authenticationConfiguration, DataSource dataSource) throws Exception {
+    public OAuthServerConfigure(AuthenticationConfiguration authenticationConfiguration, DataSource dataSource) throws Exception {
         this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
         this.dataSource = dataSource;
     }
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception {
-        oauthServer.tokenKeyAccess("isAnonymous()").checkTokenAccess("isAuthenticated()");
+        oauthServer.tokenKeyAccess("isAnonymous()")
+                .checkTokenAccess("isAuthenticated()")
+                .allowFormAuthenticationForClients();
     }
 
     @Override
