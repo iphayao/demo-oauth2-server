@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
+import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
@@ -17,11 +18,12 @@ import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFacto
 import javax.sql.DataSource;
 
 @Configuration
-public class OAuthServerConfigure extends AuthorizationServerConfigurerAdapter {
+@EnableAuthorizationServer
+public class AuthServerConfig extends AuthorizationServerConfigurerAdapter {
     private AuthenticationManager authenticationManager;
     private DataSource dataSource;
 
-    public OAuthServerConfigure(AuthenticationConfiguration authenticationConfiguration, DataSource dataSource) throws Exception {
+    public AuthServerConfig(AuthenticationConfiguration authenticationConfiguration, DataSource dataSource) throws Exception {
         this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
         this.dataSource = dataSource;
     }
