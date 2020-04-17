@@ -55,3 +55,17 @@ INSERT INTO oauth_client_details
     refresh_token_validity, additional_information, autoapprove)
 VALUES
     ('fooClientIdPassword', '{noop}secret', 'foo,read,write','password,authorization_code,client_credentials,refresh_token', null, null, 36000, 36000, null, true);
+
+
+create table users(
+    username VARCHAR(256) not null primary key,
+    password VARCHAR(256) not null,
+    enabled boolean not null
+);
+
+create table authorities (
+    username VARCHAR(256) not null,
+    authority VARCHAR(256) not null,
+    constraint fk_authorities_users foreign key(username) references users(username)
+);
+create unique index ix_auth_username on authorities (username,authority);
